@@ -1,0 +1,41 @@
+target/
+
+__pycache__/
+*.py[cod]
+dist/
+build/
+*.egg-info/
+
+qkd/_core*.so
+qkd/_core*.pyd
+qkd/_core*.dylib
+
+**/_reports/
+
+.token.env
+.vscode/
+
+.DS_Store
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+eastwood.toml
+
+.ruff_cache/
+*.tex
+wheelhouse/
+
+# generated MDB benchmark tables (bench/*.py is checked in, its output is not)
+bench/_results/
+
+# local scratch benchmarks, run soft by `./do bench` when present (not shipped)
+/base/
+
+# vite config-loader temp files left behind by interrupted builds
+*.timestamp-*.mjs
+
+# local working material: reproduction notes, slides, paper drafts, build litter
+/dev/
+
+# standalone minimal replication scripts, one per paper (checkable by hand)
+/scripts/

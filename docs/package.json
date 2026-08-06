@@ -1,0 +1,28 @@
+{
+  "name": "qkd",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Documentation for qkd: continuous-variable quantum optics and CV-QKD simulator",
+  "type": "module",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "deploy": "npx -y gh-pages -d .vitepress/dist -t"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^4.0.0",
+    "@tsconfig/svelte": "^5.0.0",
+    "@types/katex": "^0.16.7",
+    "markdown-it-mathjax3": "^4.3.2",
+    "svelte": "^5.0.0",
+    "svelte-check": "^4.0.0",
+    "typescript": "^5.6.0",
+    "vitepress": "^1.6.3"
+  },
+  "dependencies": {
+    "katex": "^0.16.11",
+    "uplot": "^1.6.31"
+  }
+}

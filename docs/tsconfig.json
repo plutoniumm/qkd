@@ -1,0 +1,30 @@
+{
+  "extends": "@tsconfig/svelte/tsconfig.json",
+  "compilerOptions": {
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "checkJs": true,
+    "isolatedModules": true,
+    // This config exists only to drive svelte-check; nothing is ever compiled
+    // through tsc. Without noEmit, tsc computes an output path for the .js
+    // inputs that collides with the input itself ("would overwrite input file").
+    "noEmit": true,
+    "moduleResolution": "bundler",
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "uplot": ["node_modules/uplot"],
+      "uplot/*": ["node_modules/uplot/*"]
+    }
+  },
+  // No Svelte or TypeScript source remains under docs/. TypeScript hard-errors
+  // ("No inputs were found in config file") on an `include` that matches nothing,
+  // so svelte.config.js is listed to guarantee one input. Add globs beside it,
+  // never in place of it.
+  "include": [
+    "svelte.config.js"
+  ]
+}

@@ -1,0 +1,63 @@
+[package]
+name = "qkd"
+version = "0.2.0"
+edition = "2021"
+description = "Continuous-variable quantum optics and CV-QKD simulator (native core)"
+license = "MIT"
+repository = "https://github.com/plutoniumm/qkd"
+
+[lib]
+name = "_core"
+crate-type = ["cdylib"]
+
+# GPU is on by default (wgpu: Metal / Vulkan / DX12, chosen at runtime). It needs
+# no vendor SDK at build time, which is what keeps `./do build`'s cross-compile
+# matrix (cargo-xwin -> Windows, manylinux containers -> Linux) working. A CUDA
+# backend would break that and could never run on this dev machine, so it stays
+# an opt-in extra to be added alongside, never in place of, wgpu.
+[features]
+default = ["gpu"]
+gpu = ["dep:wgpu", "dep:pollster"]
+
+[dependencies]
+# Bulk numeric returns hand back a numpy array rather than a boxed list. This is
+# compatible with `abi3-py311`: rust-numpy talks to NumPy's C-API through the
+# `_ARRAY_API` capsule resolved at RUNTIME, not to CPython's version-specific
+# ABI, and it depends on pyo3 with `default-features = false` so it never opts
+# out of the limited API. Verified by building this crate abi3-py311 and running
+# it on CPython 3.14. It is pure Rust with no vendored C and no system probing
+# (its build.rs is one `pyo3_build_config::use_pyo3_cfgs()`, the same call
+# pyo3-ffi already makes), so the cross-compile matrix is unaffected -- ndarray's
+# `blas` feature is off by default, so no BLAS is linked.
+numpy = "0.29"
+pollster = { version = "1.0.1", optional = true }
+pyo3 = { version = "0.29", features = [
+  "extension-module",
+  "abi3-py311",
+  # a no-op since 0.29 (Windows now links python3.dll via raw-dylib); kept as
+  # an escape hatch if the import-lib path is ever needed again.
+  "generate-import-lib",
+] }
+rayon = "1"
+wgpu = { version = "30.0.0", default-features = false, features = ["wgsl", "metal", "vulkan", "dx12"], optional = true }
+
+# `./do test` calls `develop`, i.e. `setup.py build_ext`, i.e. THIS profile, so
+# every exam runs against it. At the default opt-level = 0 that costs the suite
+# 5-19x on each engine kernel and ~54 s of wall clock. opt-level = 2 keeps
+# `debug-assertions` and `overflow-checks` on -- the whole reason a dev build
+# exists -- and deliberately omits `lto` and `codegen-units = 1`, which are what
+# would turn a one-file edit into a whole-graph relink: measured, a real edit to
+# src/pipeline.rs rebuilds in 4.9 s here against 78.5 s under [profile.release].
+#
+# It also makes the tested binary agree BIT FOR BIT with the shipped one. The
+# derotation `dx = yx * ec + yp * es` (src/pipeline.rs) contracts to an FMA at
+# any opt-level >= 1, so a debug core's `run_symbols` frames differ from a
+# release core's in ~0.35% of values (max 8.9e-16 absolute, every scalar getter
+# unchanged). Before this stanza the suite validated a binary no user ever ran.
+[profile.dev]
+opt-level = 2
+
+[profile.release]
+lto = true
+codegen-units = 1
+opt-level = 3

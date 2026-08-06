@@ -1,0 +1,10 @@
+include README.md
+include LICENSE
+include Cargo.toml
+include Cargo.lock
+recursive-include src *.rs
+recursive-include src *.wgsl
+
+# an sdist install compiles the Rust core on the user's machine; ship the smoke
+# test so they can verify the result the same way `./do build` does.
+include ci/smoke.py
