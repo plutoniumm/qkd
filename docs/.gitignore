@@ -1,0 +1,6 @@
+.vitepress/cache/
+.vitepress/dist/
+node_modules/
+
+tests/*.md
+!tests/index.md

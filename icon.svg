@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" aria-label="Quartic" color="#3d3d3a" viewBox="0 0 160 160">
+  <g transform="translate(80 80)">
+    <circle r="58" fill="none" stroke="currentColor" stroke-dasharray="2 5" stroke-width="1.2" opacity=".4"/>
+    <g fill="none" transform="rotate(45)">
+      <ellipse stroke="#d4537e" stroke-width="2" opacity=".3" rx="58" ry="22.3"/>
+      <ellipse stroke="#c75fae" stroke-width="2.1" opacity=".4" rx="51" ry="19.6"/>
+      <ellipse stroke="#b566c4" stroke-width="2.3" opacity=".6" rx="44" ry="16.9"/>
+      <ellipse stroke="#9a6fd4" stroke-width="2.5" opacity=".7" rx="37" ry="14.2"/>
+      <ellipse stroke="#7f77dd" stroke-width="2.7" opacity=".8" rx="30" ry="11.5"/>
+      <ellipse stroke="#5183de" stroke-width="2.9" opacity=".9" rx="23" ry="8.8"/>
+      <ellipse stroke="#378add" stroke-width="3" rx="16" ry="6.2"/>
+    </g>
+    <path stroke="#378add" stroke-width="4" d="m11 11 30 30"/>
+  </g>
+</svg>
